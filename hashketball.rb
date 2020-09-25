@@ -1,5 +1,6 @@
 # Write your code below game_hash
 
+
 def game_hash
   {
     home: {
@@ -127,4 +128,75 @@ def game_hash
   }
 end
 
-# Write code here
+def get_player(player_name)
+  game_hash[:home][:players].each{|player|
+    if player[:player_name] == player_name then
+      return player
+    end
+  }
+  game_hash[:away][:players].each{|player|
+    if player[:player_name] == player_name then
+      return player
+    end
+  }
+  nil
+end
+
+def get_team(team_name)
+  if game_hash[:home][:team_name] == team_name then
+    return game_hash[:home]
+  elsif game_hash[:away][:team_name] == team_name then
+    return game_hash[:away]
+  end
+  nil
+end
+
+def num_points_scored(player_name)
+  player = get_player(player_name)
+  if player then
+    player[:points]
+  end
+end
+
+def shoe_size(player_name)
+  player = get_player(player_name)
+  if player then
+    player[:shoe]
+  end
+end
+
+def team_colors(team_name)
+  team = get_team(team_name)
+  if team then
+    return team[:colors]
+  end
+end
+
+def team_names
+  [game_hash[:home][:team_name], game_hash[:away][:team_name]]
+end
+
+def player_numbers(team_name)
+  team = get_team(team_name)
+  if team then
+    return team[:players].collect{|player|  player[:number]}
+  end
+end
+
+def player_stats(player_name)
+  return get_player(player_name)
+end
+
+def big_shoe_rebounds
+  shoe_sizes = []
+  team_names.each{|team|
+    shoe_sizes.push(get_team(team)[:players].collect{|player| player[:shoe]})
+  }
+  biggest_shoe = shoe_sizes.flatten.sort[-1]
+  team_names.each{|team|
+   get_team(team)[:players].each{|player| if player[:shoe] == biggest_shoe then return player[:rebounds] end}
+  }
+end
+
+
+
